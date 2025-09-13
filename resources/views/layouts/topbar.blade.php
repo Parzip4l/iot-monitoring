@@ -220,7 +220,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
                         src="{{ URL::asset('build/images/users/avatar-7.jpg') }}" alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">Larata</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{ Auth::user()->name ?? 'Guest' }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">

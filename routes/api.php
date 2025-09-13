@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\MqttController;
+use App\Http\Controllers\Admin\MqttSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/mqtt/settings', [MqttController::class, 'settings']);
+Route::post('/mqtt/store', [MqttController::class, 'store']);
+Route::get('/monitoring/realtime', [MqttController::class, 'realtime']);

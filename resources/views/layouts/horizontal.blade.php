@@ -122,7 +122,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
                         src="{{ URL::asset('favicon.png') }}" alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-1">Larata</span>
+                    <span class="d-none d-xl-inline-block ms-1">{{ Auth::user()->name ?? 'Guest' }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
@@ -163,7 +163,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
                             <a href="#" class="dropdown-item">Overview</a>
-                            <a href="#" class="dropdown-item">Realtime Monitoring</a>
+                            <a href="{{route ('dashboard.index')}}" class="dropdown-item">Realtime Monitoring</a>
                         </div>
                     </li>
 
@@ -177,6 +177,7 @@
                             <a href="#" class="dropdown-item">Heatmap</a>
                             <a href="#" class="dropdown-item">Perbandingan</a>
                             <a href="#" class="dropdown-item">Anomali</a>
+                            <a href="{{route('log.index')}}" class="dropdown-item">Log Data</a>
                         </div>
                     </li>
 
@@ -186,7 +187,7 @@
                             <i class="dripicons-device-desktop me-2"></i> Devices <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-devices">
-                            <a href="#" class="dropdown-item">Daftar Device</a>
+                            <a href="{{route('device.index')}}" class="dropdown-item">Daftar Device</a>
                             <a href="#" class="dropdown-item">Manajemen Topic</a>
                         </div>
                     </li>
@@ -221,12 +222,20 @@
                             <i class="dripicons-gear me-2"></i> Administration <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-admin">
-                            <a href="#" class="dropdown-item">User Management</a>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-user-management" role="button">
+                                    User Management <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-user-management">
+                                    <a href="{{ route('admin.users.index') }}" class="dropdown-item">Users</a>
+                                    <a href="{{ route('role.index') }}" class="dropdown-item">Roles</a>
+                                </div>
+                            </div>
                             <a href="#" class="dropdown-item">Train & Gerbong Config</a>
-                            <a href="#" class="dropdown-item">System Logs</a>
+                            <a href="{{route('system-logs.index')}}" class="dropdown-item">System Logs</a>
+                            <a href="{{route('mqtt.index')}}" class="dropdown-item">Mqtt Settings</a>
                         </div>
                     </li>
-
                 </ul>
             </div>
         </nav>

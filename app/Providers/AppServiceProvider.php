@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Auth\Role;
+use App\Observers\RoleObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Schema::defaultStringLength(191);
+        Role::observe(RoleObserver::class);
     }
 }
