@@ -1,5 +1,5 @@
     @extends('layouts.master')
-    @section('title', 'MQTT Management')
+    @section('title', 'Train Management')
     @section('css')
         <!-- DataTables -->
         <link href="{{ URL::asset('build/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@
         <link href="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
     @endsection
     @section('content')
-    <x-breadcrub pagetitle="LRTJ" subtitle="Administration" title="Mqtt Setting"  />
+    <x-breadcrub pagetitle="LRTJ" subtitle="Train Management" title="Train Config"  />
 
     <div class="container-fluid">
         <div class="page-content-wrapper">
@@ -23,7 +23,10 @@
             @endif
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">MQTT List</h5>
+                    <h5 class="mb-0">Train List</h5>
+                    <a href="{{ route('train.config.create') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-person-plus me-1"></i> Add Train
+                    </a>
                 </div>
                 <div class="card-body table-responsive">
                     <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
@@ -31,41 +34,38 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Topic</th>
-                                <th>Device</th>
-                                <th>Interval</th>
+                                <th>Train Name</th>
+                                <th>Description</th>
+                                <th>Total Cars</th>
                                 <th width="120">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($mqtt as $i => $mq)
+                            @foreach($train as $i => $train)
                                 <tr>
                                     <td>{{ $i+1 }}</td>
-                                    <td>{{ $mq->topic }}</td>
-                                    <td>{{ $mq->device->name }} [{{$mq->device_id}}]</td>
-                                    <td>{{ $mq->interval}}</td>
+                                    <td>{{ strtoupper($train->name) }}</td>
+                                    <td>{{ $train->description }}</td>
+                                    <td>{{ $train->total_gerbong }}</td>
                                     <td>
                                         <!-- Edit Button -->
-                                        <a href="{{ route('mqtt.edit', $mq->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('train.config.edit', $train->id) }}" class="btn btn-sm btn-warning">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
 
                                         <!-- Delete Form -->
-                                        <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $mq->id }}">
+                                        <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $train->id }}">
                                             <i class="bi bi-trash"></i> Delete
                                         </button>
 
                                         <!-- Hidden Form -->
-                                        <form id="delete-form-{{ $mq->id }}" action="{{ route('role.destroy', $mq->id) }}" method="POST" class="d-none">
+                                        <form id="delete-form-{{ $train->id }}" action="{{ route('train.config.destroy', $train->id) }}" method="POST" class="d-none">
                                             @csrf
                                             @method('DELETE')
                                         </form>
                                     </td>
                                 </tr>
                             @endforeach
-                            @if($mqtt->isEmpty())
-                                <tr><td colspan="4" class="text-center">No settings found.</td></tr>
-                            @endif
                         </tbody>
                     </table>
                 </div>

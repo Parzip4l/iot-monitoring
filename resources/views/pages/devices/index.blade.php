@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Device List</h5>
-                    <a href="{{ route('role.create') }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('device.create') }}" class="btn btn-primary btn-sm">
                         <i class="bi bi-person-plus me-1"></i> Add Device
                     </a>
                 </div>
@@ -35,7 +35,12 @@
                             <tr>
                                 <th>#</th>
                                 <th>Device Name</th>
-                                <th>Status</th>
+                                <th>Device Code</th>
+                                <th>Train</th>
+                                <th>Cars</th>
+                                <th>Broker IP</th>
+                                <th>Broker Port</th>
+                                <th>Topic</th>
                                 <th width="120">Action</th>
                             </tr>
                         </thead>
@@ -44,10 +49,15 @@
                                 <tr>
                                     <td>{{ $i+1 }}</td>
                                     <td>{{ $devices->name }}</td>
-                                    <td><span class="{{ $devices->status == 'online' ? 'text-success' : 'text-danger' }}">{{ $devices->status}}</span></td>
+                                    <td>{{ $devices->serial_number }}</td>
+                                    <td>{{ $devices->train->name }}</td>
+                                    <td>{{ $devices->cars->car_number }}</td>
+                                    <td>{{ $devices->broker_ip }}</td>
+                                    <td>{{ $devices->broker_port }}</td>
+                                    <td>{{ $devices->topic }}</td>
                                     <td>
                                         <!-- Edit Button -->
-                                        <a href="{{ route('role.edit', $devices->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('device.edit', $devices->id) }}" class="btn btn-sm btn-warning">
                                             <i class="bi bi-pencil-square"></i> Edit
                                         </a>
 
@@ -57,7 +67,7 @@
                                         </button>
 
                                         <!-- Hidden Form -->
-                                        <form id="delete-form-{{ $devices->id }}" action="{{ route('role.destroy', $devices->id) }}" method="POST" class="d-none">
+                                        <form id="delete-form-{{ $devices->id }}" action="{{ route('device.destroy', $devices->id) }}" method="POST" class="d-none">
                                             @csrf
                                             @method('DELETE')
                                         </form>

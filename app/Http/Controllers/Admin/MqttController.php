@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\General\MqttLog;
 use App\Models\General\MqttSetting;
 use App\Models\General\Device;
+use App\Models\General\SensorThreshold;
+use App\Models\General\Anomaly;
+
+use Carbon\Carbon;
 
 class MqttController extends Controller
 {
@@ -21,22 +25,51 @@ class MqttController extends Controller
         $parts = explode(',', $validated['payload']);
 
         if (count($parts) >= 5) {
-            $device_id   = trim($parts[0]); // DEV-003
-            $temperature = floatval(trim($parts[1])); // 30.0
-            $humidity    = floatval(str_replace('%', '', trim($parts[2]))); // 85.1
-            $noise       = floatval(trim($parts[3])); // 62.9
-            $timestamp   = trim($parts[4]); // 2025-09-13 12:19:11
+            $deviceSerial = trim($parts[0]); // DEV-003
+            $temperature  = floatval(trim($parts[1]));
+            $humidity     = floatval(str_replace('%', '', trim($parts[2])));
+            $noise        = floatval(trim($parts[3]));
+            $timestamp    = trim($parts[4]);
+
+            // Cari device berdasarkan serial_number
+            $device = Device::where('serial_number', $deviceSerial)->first();
+            if (!$device) {
+                return response()->json(['error' => 'Device not found'], 404);
+            }
 
             $log = MqttLog::create([
                 'topic'        => $validated['topic'],
-                'payload'      => $validated['payload'], // simpan mentah juga
-                'device_id'    => $device_id,
+                'payload'      => $validated['payload'],
+                'device_id'    => $deviceSerial,
                 'temperature'  => $temperature,
                 'humidity'     => $humidity,
                 'noise'        => $noise,
                 'timestamp'    => $timestamp,
                 'last_saved_at'=> now(),
             ]);
+
+            // Cek threshold untuk masing-masing sensor
+            $sensors = ['temperature' => $temperature, 'humidity' => $humidity, 'noise' => $noise];
+            foreach ($sensors as $type => $value) {
+                $threshold = SensorThreshold::where('device_id', $device->id)
+                    ->where('sensor_type', $type)
+                    ->first();
+
+                if ($threshold) {
+                    if (($threshold->min_value !== null && $value < $threshold->min_value) ||
+                        ($threshold->max_value !== null && $value > $threshold->max_value)) {
+                        Anomaly::create([
+                            'mqtt_log_id' => $log->id,
+                            'device_id'   => $device->id,
+                            'sensor_type' => $type,
+                            'value'       => $value,
+                            'min_value'   => $threshold->min_value,
+                            'max_value'   => $threshold->max_value,
+                        ]);
+                    }
+                }
+            }
+
         } else {
             return response()->json(['error' => 'Invalid payload format'], 400);
         }
@@ -47,11 +80,12 @@ class MqttController extends Controller
         ]);
     }
 
+
     // ========== LOAD SETTINGAN UNTUK SUBSCRIBER ==========
     public function settings()
     {
         // Ambil semua setting MQTT yang ada
-        $settings = MqttSetting::with('device:id,serial_number')->get();
+        $settings = MqttSetting::with('device:id,serial_number,broker_ip,broker_port')->get();
 
         return response()->json([
             'success'  => true,

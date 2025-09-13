@@ -3,6 +3,7 @@
 namespace App\Models\General;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\General\Device;
 
 class MqttLog extends Model
 {
@@ -16,4 +17,9 @@ class MqttLog extends Model
         'last_saved_at',
         'noise'
     ];
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class, 'device_id', 'serial_number');
+    }
 }

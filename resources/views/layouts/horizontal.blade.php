@@ -162,7 +162,7 @@
                             <i class="dripicons-home me-2"></i> Dashboard <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
-                            <a href="#" class="dropdown-item">Overview</a>
+                            <a href="{{ route('analytics.index') }}" class="dropdown-item">Analytics Data</a>
                             <a href="{{route ('dashboard.index')}}" class="dropdown-item">Realtime Monitoring</a>
                         </div>
                     </li>
@@ -182,14 +182,10 @@
                     </li>
 
                     <!-- Devices -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-devices" role="button">
-                            <i class="dripicons-device-desktop me-2"></i> Devices <div class="arrow-down"></div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('device.index')}}" id="topnav-devices" role="button">
+                            <i class="dripicons-device-desktop me-2"></i> Devices
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="topnav-devices">
-                            <a href="{{route('device.index')}}" class="dropdown-item">Daftar Device</a>
-                            <a href="#" class="dropdown-item">Manajemen Topic</a>
-                        </div>
                     </li>
 
                     <!-- Alerts -->
@@ -198,8 +194,8 @@
                             <i class="dripicons-warning me-2"></i> Alerts <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-alerts">
-                            <a href="#" class="dropdown-item">Daftar Alert</a>
-                            <a href="#" class="dropdown-item">Rule Engine</a>
+                            <a href="{{route('anomaly.index')}}" class="dropdown-item">Daftar Alert</a>
+                            <a href="{{route('sensor-threshold.index')}}" class="dropdown-item">Rule Engine</a>
                             <a href="#" class="dropdown-item">Notifikasi Setting</a>
                         </div>
                     </li>
@@ -231,7 +227,15 @@
                                     <a href="{{ route('role.index') }}" class="dropdown-item">Roles</a>
                                 </div>
                             </div>
-                            <a href="#" class="dropdown-item">Train & Gerbong Config</a>
+                            <div class="dropdown">
+                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="train-config" role="button">
+                                    Train Config <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="train-config">
+                                    <a href="{{ route('train.config.index') }}" class="dropdown-item">Train</a>
+                                    <a href="{{ route('cars.config.index') }}" class="dropdown-item">Cars</a>
+                                </div>
+                            </div>
                             <a href="{{route('system-logs.index')}}" class="dropdown-item">System Logs</a>
                             <a href="{{route('mqtt.index')}}" class="dropdown-item">Mqtt Settings</a>
                         </div>

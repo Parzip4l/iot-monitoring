@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\General\MqttLog;
+use App\Models\General\Device;
 
 
 class LogController extends Controller
@@ -12,11 +13,26 @@ class LogController extends Controller
     /**
      * List roles
      */
-    public function index()
+    public function index(Request $request)
     {
-        $log = MqttLog::all();
-        return view('pages.log.index', compact('log'));
+        $query = MqttLog::query()->with('device');
+
+        // Filter device
+        if ($request->device_id) {
+            $query->where('device_id', $request->device_id);
+        }
+
+        // Filter tanggal
+        if ($request->from && $request->to) {
+            $query->whereBetween('last_saved_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']);
+        }
+
+        $log = $query->orderBy('last_saved_at', 'desc')->get();
+        $devices = Device::all(); // Ambil daftar device untuk dropdown
+
+        return view('pages.log.index', compact('log', 'devices'));
     }
+
 
     /**
      * Form create

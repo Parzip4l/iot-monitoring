@@ -257,7 +257,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <p class="text-muted small mt-2 mb-0">* Data di atas masih dummy, nanti otomatis diisi via API</p>
+                            <!-- <p class="text-muted small mt-2 mb-0">* Data di atas masih dummy, nanti otomatis diisi via API</p> -->
                         </div>
                     </div>
                 </div>

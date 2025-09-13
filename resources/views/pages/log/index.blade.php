@@ -22,6 +22,37 @@
                 </div>
             @endif
             <div class="card">
+                <div class="card-body">
+                    <form method="GET" class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Device</label>
+                            <select name="device_id" class="form-control">
+                                <option value="">-- All Devices --</option>
+                                @foreach($devices as $d)
+                                    <option value="{{ $d->serial_number }}" {{ request('device_id') == $d->id ? 'selected' : '' }}>
+                                        {{ $d->serial_number }} - {{ $d->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">From</label>
+                            <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">To</label>
+                            <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{ route('log.index') }}" class="btn btn-warning w-100">Reset Filter</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Log Data IOT</h5>
                 </div>
