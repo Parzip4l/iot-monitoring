@@ -50,8 +50,8 @@
                                     <td>{{ $i+1 }}</td>
                                     <td>{{ $devices->name }}</td>
                                     <td>{{ $devices->serial_number }}</td>
-                                    <td>{{ $devices->train->name }}</td>
-                                    <td>{{ $devices->cars->car_number }}</td>
+                                    <td>{{ $devices->train->name ?? '-' }}</td>
+                                    <td>{{ $devices->cars->car_number ?? '-' }}</td>
                                     <td>{{ $devices->broker_ip }}</td>
                                     <td>{{ $devices->broker_port }}</td>
                                     <td>{{ $devices->topic }}</td>
