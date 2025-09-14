@@ -44,7 +44,7 @@ class MqttController extends Controller
                 'temperature'  => $temperature,
                 'humidity'     => $humidity,
                 'noise'        => $noise,
-                'recorded_at'    => $timestamp,
+                'timestamp'    => $timestamp,
                 'last_saved_at'=> now(),
             ]);
 

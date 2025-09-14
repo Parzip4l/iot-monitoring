@@ -15,7 +15,7 @@ return new class extends Migration
         $table->string('device_id')->nullable()->after('payload');
         $table->float('temperature')->nullable()->after('device_id');
         $table->float('humidity')->nullable()->after('temperature');
-        $table->timestamp('recorded_at')->nullable()->after('humidity');
+        $table->timestamp('timestamp')->nullable()->after('humidity');
     });
     }
 
