@@ -13,7 +13,7 @@ class MqttLog extends Model
         'device_id',
         'temperature',
         'humidity',
-        'timestamp',
+        'recorded_at',
         'last_saved_at',
         'noise'
     ];
