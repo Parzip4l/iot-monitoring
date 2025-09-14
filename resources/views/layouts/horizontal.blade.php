@@ -238,6 +238,7 @@
                             </div>
                             <a href="{{route('system-logs.index')}}" class="dropdown-item">System Logs</a>
                             <a href="{{route('mqtt.index')}}" class="dropdown-item">Mqtt Settings</a>
+                            <a href="{{route('broker.index')}}" class="dropdown-item">Broker Status</a>
                         </div>
                     </li>
                 </ul>

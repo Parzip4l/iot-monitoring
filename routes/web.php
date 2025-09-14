@@ -10,6 +10,9 @@ use App\Http\Controllers\General\DashboardController;
 use App\Http\Controllers\General\SystemLogController;
 use App\Http\Controllers\General\SensorThresholdController;
 
+// Setting
+use App\Http\Controllers\General\BrokerLogController;
+
 // Dashboard dan Analytics
 use App\Http\Controllers\Log\LogController;
 use App\Http\Controllers\Log\AnalyticsController;
@@ -96,6 +99,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
         // System Log
         Route::get('/system-logs', [SystemLogController::class, 'index'])->name('system-logs.index');
+        Route::get('/broker-status', [BrokerLogController::class, 'index'])->name('broker.index');
     });
 
      Route::prefix('dashboard')->group(function () {

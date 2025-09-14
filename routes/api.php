@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\MqttController;
 use App\Http\Controllers\Admin\MqttSettingController;
+use App\Http\Controllers\General\BrokerLogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/mqtt/settings', [MqttController::class, 'settings']);
 Route::post('/mqtt/store', [MqttController::class, 'store']);
 Route::get('/monitoring/realtime', [MqttController::class, 'realtime']);
+Route::post('/broker/log', [BrokerLogController::class, 'store']);

@@ -21,7 +21,7 @@
                             <div class="card mini-stat text-center shadow-sm h-100">
                                 <div class="card-body">
                                     <p class="text-muted mb-2">Kereta Aktif</p>
-                                    <h4 class="fw-bold">2</h4>
+                                    <h4 class="fw-bold">{{$keretaAktif}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                             <div class="card mini-stat text-center shadow-sm h-100">
                                 <div class="card-body">
                                     <p class="text-muted mb-2">Device Online</p>
-                                    <h4 class="fw-bold text-success">14</h4>
+                                    <h4 class="fw-bold text-success">{{$deviceOnline}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <div class="card mini-stat text-center shadow-sm h-100">
                                 <div class="card-body">
                                     <p class="text-muted mb-2">Device Offline</p>
-                                    <h4 class="fw-bold text-danger">2</h4>
+                                    <h4 class="fw-bold text-danger">{{$deviceOffline}}</h4>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="card mini-stat text-center shadow-sm h-100">
                                 <div class="card-body">
                                     <p class="text-muted mb-2">Status Sistem</p>
-                                    <span class="badge bg-success rounded-pill px-3 py-2">Connected</span>
+                                    <span class="badge bg-success rounded-pill px-3 py-2">{{$statusSistem}}</span>
                                 </div>
                             </div>
                         </div>
