@@ -63,6 +63,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
             Route::get('/{device}/edit', [DeviceController::class, 'edit'])->name('device.edit');
             Route::put('/{device}', [DeviceController::class, 'update'])->name('device.update');
             Route::get('/log', [LogController::class, 'index'])->name('log.index');
+            Route::get('log/data', [LogController::class, 'getData'])->name('log.data');
             Route::delete('/{device}', [DeviceController::class, 'destroy'])->name('device.destroy');
         });
 
