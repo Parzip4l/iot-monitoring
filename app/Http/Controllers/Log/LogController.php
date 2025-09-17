@@ -14,26 +14,26 @@ class LogController extends Controller
      * List roles
      */
     public function index(Request $request)
-{
-    $query = MqttLog::with('device');
+    {
+        $query = MqttLog::with('device');
 
-    // Filter device
-    if ($request->device_id) {
-        $query->where('device_id', $request->device_id);
+        // Filter device
+        if ($request->device_id) {
+            $query->where('device_id', $request->device_id);
+        }
+
+        // Filter tanggal
+        if ($request->from && $request->to) {
+            $query->whereBetween('last_saved_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']);
+        }
+
+        // Gunakan paginate agar tidak mengambil semua record sekaligus
+        $log = $query->orderBy('last_saved_at', 'desc')->paginate(5000);
+
+        $devices = Device::all();
+
+        return view('pages.log.index', compact('log', 'devices'));
     }
-
-    // Filter tanggal
-    if ($request->from && $request->to) {
-        $query->whereBetween('last_saved_at', [$request->from . ' 00:00:00', $request->to . ' 23:59:59']);
-    }
-
-    // Gunakan paginate agar tidak mengambil semua record sekaligus
-    $log = $query->orderBy('last_saved_at', 'desc')->paginate(50); // misal 50 per halaman
-
-    $devices = Device::all();
-
-    return view('pages.log.index', compact('log', 'devices'));
-}
 
 
 
