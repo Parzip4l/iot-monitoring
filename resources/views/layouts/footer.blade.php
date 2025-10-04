@@ -6,7 +6,11 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Crafted with <i class="mdi mdi-heart text-danger"></i>
+                    Crafted by <img src="{{ URL::asset('ksi.png') }}" alt="" 
+                    style="max-height: 20px;
+                        margin-left: 10px;
+                        margin-top: 4px;
+                        ">
                 </div>
             </div>
         </div>
