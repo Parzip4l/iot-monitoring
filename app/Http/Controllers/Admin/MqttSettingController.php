@@ -69,6 +69,8 @@ class MqttSettingController extends Controller
 
             $validated = $request->validate([
                 'interval' => 'required|integer|min:5',
+                'topic' => 'required',
+                'device_id' => 'required',
             ]);
 
             $setting->update($validated);
