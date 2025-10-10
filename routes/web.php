@@ -39,7 +39,7 @@ Route::post('/login', [UserManagementController::class, 'login'])->name('login.p
 Route::post('/logout', [UserManagementController::class, 'logout'])->name('logout');
 
 // Admin User Management
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('users', UserManagementController::class);
     });
