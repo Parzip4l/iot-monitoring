@@ -57,7 +57,7 @@
                                         </button>
 
                                         <!-- Hidden Form -->
-                                        <form id="delete-form-{{ $mq->id }}" action="{{ route('role.destroy', $mq->id) }}" method="POST" class="d-none">
+                                        <form id="delete-form-{{ $mq->id }}" action="{{ route('mqtt.destroy', $mq->id) }}" method="POST" class="d-none">
                                             @csrf
                                             @method('DELETE')
                                         </form>
