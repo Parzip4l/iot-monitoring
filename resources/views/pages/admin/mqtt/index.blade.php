@@ -42,7 +42,7 @@
                                 <tr>
                                     <td>{{ $i+1 }}</td>
                                     <td>{{ $mq->topic }}</td>
-                                    <td>{{ $mq->device->name }} [{{$mq->device_id}}]</td>
+                                    <td>{{ $mq->device->name }} [{{$mq->device_id}}] ?? '-'</td>
                                     <td>{{ $mq->interval}}</td>
                                     <td>
                                         <!-- Edit Button -->
