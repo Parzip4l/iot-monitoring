@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         // Mqtt
         Route::prefix('mqtt')->group(function () {
             Route::get('settings', [MqttSettingController::class, 'index'])->name('mqtt.index');
+            Route::delete('settings/{id}', [MqttSettingController::class, 'destroy'])->name('mqtt.destroy');
             Route::get('create', [MqttSettingController::class, 'create'])->name('mqtt.create');
             Route::post('settings', [MqttSettingController::class, 'store'])->name('mqtt.store');
             Route::get('settings/{id}', [MqttSettingController::class, 'edit'])->name('mqtt.edit');
