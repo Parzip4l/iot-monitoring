@@ -218,7 +218,7 @@
                                                 <th>Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="alert-table-body">
                                             @forelse ($alertTerbaru as $alert)
                                                 <tr>
                                                     <td>{{ \Carbon\Carbon::parse($alert->created_at)->format('H:i:s') }}</td>
