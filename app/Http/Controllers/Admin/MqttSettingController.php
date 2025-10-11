@@ -14,7 +14,7 @@ class MqttSettingController extends Controller
     public function index()
     {
         try {
-            $mqtt = MqttSetting::with('device')->get(); // kalau ada relasi ke device
+            $mqtt = MqttSetting::with('device')->get();
             return view('pages.admin.mqtt.index', compact('mqtt'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Gagal memuat data: ' . $e->getMessage());

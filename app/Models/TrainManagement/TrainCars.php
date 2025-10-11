@@ -3,6 +3,7 @@
 namespace App\Models\TrainManagement;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\General\Device;
 
 class TrainCars extends Model
 {
@@ -16,5 +17,10 @@ class TrainCars extends Model
     public function TrainConfig()
     {
         return $this->belongsTo(TrainConfig::class,'train_id');
+    }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class, 'train_id');
     }
 }

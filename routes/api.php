@@ -25,3 +25,25 @@ Route::get('/mqtt/settings', [MqttController::class, 'settings']);
 Route::post('/mqtt/store', [MqttController::class, 'store']);
 Route::get('/monitoring/realtime', [MqttController::class, 'realtime']);
 Route::post('/broker/log', [BrokerLogController::class, 'store']);
+Route::get('/alerts/latest', function () {
+    $alerts = App\Models\General\Anomaly::with(['device.train', 'device.cars'])
+        ->latest()
+        ->take(10)
+        ->get()
+        ->map(fn($a) => [
+            'time' => $a->created_at->format('H:i:s'),
+            'train' => $a->device->train->name ?? '-',
+            'car' => $a->device->cars->car_number ?? '-',
+            'device' => $a->device->serial_number ?? '-',
+            'message' => $a->message ?? '-',
+            'status' => ucfirst($a->status ?? 'Anomali'),
+            'badge' => match(strtolower($a->status ?? '')) {
+                'critical' => 'bg-danger',
+                'offline' => 'bg-secondary',
+                'warning', 'anomali' => 'bg-warning text-dark',
+                default => 'bg-info',
+            },
+        ]);
+
+    return response()->json($alerts);
+});

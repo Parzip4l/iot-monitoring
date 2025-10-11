@@ -37,4 +37,9 @@ class Device extends Model
     {
         return $this->belongsTo(TrainCars::class,'car_id');
     }
+
+    public function trainCar()
+    {
+        return $this->belongsTo(TrainCars::class, 'car_id');
+    }
 }

@@ -12,4 +12,9 @@ class TrainConfig extends Model
         'description',
         'total_gerbong',
     ];
+
+    public function cars()
+    {
+        return $this->hasMany(TrainCars::class, 'train_id');
+    }
 }
