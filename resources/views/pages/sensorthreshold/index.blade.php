@@ -45,7 +45,13 @@
                         @foreach($thresholds as $i => $th)
                             <tr>
                                 <td>{{ $i+1 }}</td>
-                                <td>{{ $th->device->serial_number ?? $th->device->name }}</td>
+                                <td>
+                                    @if($th->device)
+                                        {{ $th->device->serial_number ?? $th->device->name ?? '-' }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>{{ ucfirst($th->sensor_type) }}</td>
                                 <td>{{ $th->min_value ?? '-' }}</td>
                                 <td>{{ $th->max_value ?? '-' }}</td>
