@@ -127,16 +127,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-account-circle-outline font-size-16 align-middle me-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-wallet-outline font-size-16 align-middle me-1"></i> My Wallet</a>
-                    <a class="dropdown-item d-block" href="#"><span
-                            class="badge badge-success float-end">11</span><i
-                            class="mdi mdi-cog-outline font-size-16 align-middle me-1"></i> Settings</a>
-                    <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-lock-open-outline font-size-16 align-middle me-1"></i> Lock screen</a>
-                    <div class="dropdown-divider"></div>
+                    
                     <a class="dropdown-item text-danger" href="javascript:void();"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="mdi mdi-power font-size-16 align-middle me-1 text-danger"></i> Logout</a>
@@ -158,13 +149,9 @@
 
                     <!-- Dashboard -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-dashboard" role="button">
-                            <i class="dripicons-home me-2"></i> Dashboard <div class="arrow-down"></div>
+                        <a class="nav-link" href="{{route ('dashboard.index')}}" id="topnav-dashboard" role="button">
+                            <i class="dripicons-home me-2"></i> Realtime Dashboard
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
-                            <a href="{{ route('analytics.index') }}" class="dropdown-item">Analytics Data</a>
-                            <a href="{{route ('dashboard.index')}}" class="dropdown-item">Realtime Monitoring</a>
-                        </div>
                     </li>
 
                     <!-- Analytics -->
@@ -173,10 +160,7 @@
                             <i class="dripicons-graph-line me-2"></i> Analytics <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-analytics">
-                            <a href="#" class="dropdown-item">Tren & Statistik</a>
-                            <a href="#" class="dropdown-item">Heatmap</a>
-                            <a href="#" class="dropdown-item">Perbandingan</a>
-                            <a href="#" class="dropdown-item">Anomali</a>
+                            <a href="{{ route('analytics.index') }}" class="dropdown-item">Analytics Data</a>
                             <a href="{{route('log.index')}}" class="dropdown-item">Log Data</a>
                         </div>
                     </li>
@@ -196,7 +180,6 @@
                         <div class="dropdown-menu" aria-labelledby="topnav-alerts">
                             <a href="{{route('anomaly.index')}}" class="dropdown-item">Daftar Alert</a>
                             <a href="{{route('sensor-threshold.index')}}" class="dropdown-item">Rule Engine</a>
-                            <a href="#" class="dropdown-item">Notifikasi Setting</a>
                         </div>
                     </li>
 
