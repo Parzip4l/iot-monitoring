@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MqttSettingController;
 use App\Http\Controllers\General\DashboardController;
 use App\Http\Controllers\General\SystemLogController;
 use App\Http\Controllers\General\SensorThresholdController;
+use App\Http\Controllers\Admin\MqttController;
 
 // Setting
 use App\Http\Controllers\General\BrokerLogController;
@@ -104,10 +105,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/broker-status', [BrokerLogController::class, 'index'])->name('broker.index');
     });
 
-     Route::prefix('dashboard')->group(function () {
+    Route::prefix('dashboard')->group(function () {
         Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
         Route::get('/analytics/iot/data', [AnalyticsController::class, 'getData'])->name('analytics.iot.data');
-     });
+    });
+
+    Route::get('/reports/daily/download', [MqttController::class, 'downloadDaily'])->name('reports.daily.download');
+    Route::get('/reports/monthly/download', [MqttController::class, 'downloadMonthly'])->name('reports.monthly.download');
+    Route::get('/reports/range/download', [MqttController::class, 'downloadRange'])->name('reports.range.download');
 
     
 });

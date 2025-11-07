@@ -55,6 +55,39 @@
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Log Data IOT</h5>
+                        <div class="btn-group">
+        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bx bx-download"></i> Download Report
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                <form action="{{ route('reports.daily.download') }}" method="GET" class="px-3 py-2">
+                    <label class="form-label mb-1">Tanggal</label>
+                    <input type="date" name="date" class="form-control mb-2" value="{{ now()->toDateString() }}">
+                    <button type="submit" class="btn btn-sm btn-primary w-100">Download Harian</button>
+                </form>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form action="{{ route('reports.monthly.download') }}" method="GET" class="px-3 py-2">
+                    <label class="form-label mb-1">Bulan</label>
+                    <input type="month" name="month" class="form-control mb-2" value="{{ now()->format('Y-m') }}">
+                    <button type="submit" class="btn btn-sm btn-info w-100">Download Bulanan</button>
+                </form>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form action="{{ route('reports.range.download') }}" method="GET" class="px-3 py-2">
+                    <label class="form-label mb-1">Range Tanggal</label>
+                    <div class="d-flex gap-2">
+                        <input type="date" name="from" class="form-control" required>
+                        <input type="date" name="to" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-warning w-100 mt-2">Download by Range</button>
+                </form>
+            </li>
+        </ul>
+    </div>
                     </div>
                     <div class="card-body table-responsive">
                         <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"

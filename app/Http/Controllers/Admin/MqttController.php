@@ -30,8 +30,11 @@ class MqttController extends Controller
             $deviceSerial = trim($parts[0]); // DEV-003
             $temperature  = floatval(trim($parts[1]));
             $humidity     = floatval(str_replace('%', '', trim($parts[2])));
-            $noise        = floatval(trim($parts[3]));
+            $rawNoise     = floatval(trim($parts[3]));
             $timestamp    = trim($parts[4]);
+
+            $I = $rawNoise / 1000;
+            $noise = 30 + (4.5 * $I);
 
             // Cari device berdasarkan serial_number
             $device = Device::where('serial_number', $deviceSerial)->first();
@@ -45,7 +48,7 @@ class MqttController extends Controller
                 'device_id'    => $deviceSerial,
                 'temperature'  => $temperature,
                 'humidity'     => $humidity,
-                'noise'        => $noise,
+                'noise'        => round($noise, 1),
                 'timestamp'    => $timestamp,
                 'last_saved_at'=> now(),
             ]);
@@ -186,4 +189,88 @@ class MqttController extends Controller
     }
 
 
+    public function downloadDaily(Request $request)
+{
+    $date = $request->input('date', Carbon::today()->toDateString());
+    $logs = MqttLog::whereDate('timestamp', $date)->get();
+
+    $filename = "report-daily-{$date}.csv";
+    $headers = ['Content-Type' => 'text/csv', 'Content-Disposition' => "attachment; filename={$filename}"];
+
+    $callback = function() use ($logs) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, ['Device', 'Temperature', 'Humidity', 'Noise', 'Timestamp']);
+        foreach ($logs as $log) {
+            fputcsv($file, [
+                $log->device_id,
+                $log->temperature,
+                $log->humidity,
+                $log->noise,
+                $log->timestamp,
+            ]);
+        }
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
+
+public function downloadMonthly(Request $request)
+{
+    $month = $request->input('month', Carbon::now()->format('Y-m'));
+    $year = substr($month, 0, 4);
+    $monthNum = substr($month, 5, 2);
+
+    $logs = MqttLog::whereYear('timestamp', $year)
+                   ->whereMonth('timestamp', $monthNum)
+                   ->get();
+
+    $filename = "report-monthly-{$month}.csv";
+    $headers = ['Content-Type' => 'text/csv', 'Content-Disposition' => "attachment; filename={$filename}"];
+
+    $callback = function() use ($logs) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, ['Device', 'Temperature', 'Humidity', 'Noise', 'Timestamp']);
+        foreach ($logs as $log) {
+            fputcsv($file, [
+                $log->device_id,
+                $log->temperature,
+                $log->humidity,
+                $log->noise,
+                $log->timestamp,
+            ]);
+        }
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
+
+public function downloadRange(Request $request)
+{
+    $from = $request->input('from');
+    $to = $request->input('to');
+
+    $logs = MqttLog::whereBetween('timestamp', [$from, $to])->get();
+
+    $filename = "report-range-{$from}_to_{$to}.csv";
+    $headers = ['Content-Type' => 'text/csv', 'Content-Disposition' => "attachment; filename={$filename}"];
+
+    $callback = function() use ($logs) {
+        $file = fopen('php://output', 'w');
+        fputcsv($file, ['Device', 'Temperature', 'Humidity', 'Noise', 'Timestamp']);
+        foreach ($logs as $log) {
+            fputcsv($file, [
+                $log->device_id,
+                $log->temperature,
+                $log->humidity,
+                $log->noise,
+                $log->timestamp,
+            ]);
+        }
+        fclose($file);
+    };
+
+    return response()->stream($callback, 200, $headers);
+}
 }

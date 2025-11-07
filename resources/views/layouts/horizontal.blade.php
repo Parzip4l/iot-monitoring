@@ -189,9 +189,8 @@
                             <i class="dripicons-document me-2"></i> Reports <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-reports">
-                            <a href="#" class="dropdown-item">Export Data</a>
-                            <a href="#" class="dropdown-item">Laporan Harian</a>
-                            <a href="#" class="dropdown-item">Laporan Bulanan</a>
+                            <a href="{{route('log.index')}}" class="dropdown-item">Laporan Harian</a>
+                            <a href="{{route('log.index')}}" class="dropdown-item">Laporan Bulanan</a>
                         </div>
                     </li>
 
