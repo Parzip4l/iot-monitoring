@@ -103,7 +103,7 @@ class SensorThresholdController extends Controller
                 ->whereYear('created_at', $request->year);
         }
 
-        $anomalies = $query->get();
+        $anomalies = $query->limit(1000)->get();
 
         // Ambil list device, train, car untuk filter
         $devices = Device::all();
