@@ -88,8 +88,8 @@ class SensorThresholdController extends Controller
         }
 
         // Filter by car
-        if ($request->filled('car_id')) {
-            $query->whereHas('device.cars', fn($q) => $q->where('id', $request->car_id));
+       if ($request->filled('car_id')) {
+            $query->whereHas('device', fn($q) => $q->where('car_id', $request->car_id));
         }
 
         // Filter by date range
