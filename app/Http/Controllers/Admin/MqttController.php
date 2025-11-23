@@ -103,7 +103,6 @@ class MqttController extends Controller
         $trainId = $request->query('train_id');
         $deviceSerials = [];
 
-        // 🔹 Ambil daftar serial_number device berdasarkan train_id
         if ($trainId) {
             $deviceSerials = Device::whereHas('trainCar', function ($query) use ($trainId) {
                     $query->where('train_id', $trainId);
@@ -112,35 +111,30 @@ class MqttController extends Controller
                 ->toArray();
         }
 
-        // 🔹 Siapkan query dasar
         $logQuery = MqttLog::query();
         $deviceQuery = Device::query();
 
-        // 🔹 Terapkan filter jika kereta dipilih
         if ($trainId && !empty($deviceSerials)) {
             $logQuery->whereIn('device_id', $deviceSerials);
             $deviceQuery->whereIn('serial_number', $deviceSerials);
         } elseif ($trainId && empty($deviceSerials)) {
-            // Jika kereta dipilih tapi tidak ada device, kembalikan kosong
             $logQuery->whereRaw('1 = 0');
         }
 
-        // 🔹 Ambil data paling baru (gunakan ID untuk akurasi urutan)
         $latestLog = $logQuery->clone()->latest('id')->first();
 
         $summaryTemp  = $latestLog->temperature ?? 0;
         $summaryHum   = $latestLog->humidity ?? 0;
         $summaryNoise = $latestLog->noise ?? 0;
 
-        // 🔹 Ambil 10 data terbaru untuk chart (urut dari paling lama ke paling baru)
         $sensors = $logQuery->clone()
             ->orderBy('id', 'desc')
             ->take(10)
             ->get()
             ->map(fn($row) => [
-                'time'        => \Carbon\Carbon::parse($row->created_at)
-                                    ->setTimezone('Asia/Jakarta')
-                                    ->format('H:i:s'),
+                'time' => \Carbon\Carbon::parse($row->created_at)
+                                ->setTimezone('Asia/Jakarta')
+                                ->format('d M Y H:i:s'),
                 'temperature' => $row->temperature,
                 'humidity'    => $row->humidity,
                 'noise'       => $row->noise ?? 0,

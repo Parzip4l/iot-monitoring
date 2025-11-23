@@ -70,7 +70,7 @@
                                             <h5 class="mb-3 fw-bold">{{ $train->name }}</h5>
                                             <img src="{{ URL::asset('kereta.png') }}" alt="Kereta LRT" class="img-fluid" style="max-width:60%;">
                                             
-                                            <div class="gerbong-indicators-container"></div>
+                                            <!-- <div class="gerbong-indicators-container"></div> -->
                                         </div>
                                     </div>
                                 @endforeach
