@@ -182,6 +182,52 @@ class MqttController extends Controller
         ]);
     }
 
+    public function summaryByTrain(Request $request)
+{
+    $trainId = $request->query('train_id');
+    $deviceSerials = [];
+
+    // Ambil serial number device berdasarkan train_id
+    if ($trainId) {
+        $deviceSerials = Device::whereHas('trainCar', function ($query) use ($trainId) {
+                $query->where('train_id', $trainId);
+            })
+            ->pluck('serial_number')
+            ->toArray();
+    }
+
+    $logQuery = MqttLog::query();
+    $deviceQuery = Device::query();
+
+    // Filter berdasarkan train_id dan device serial
+    if ($trainId && !empty($deviceSerials)) {
+        $logQuery->whereIn('device_id', $deviceSerials);
+        $deviceQuery->whereIn('serial_number', $deviceSerials);
+    } elseif ($trainId && empty($deviceSerials)) {
+        $logQuery->whereRaw('1 = 0');
+    }
+
+    // 🔥 Filter hanya data 1 hari terakhir
+    $logQuery->where('created_at', '>=', now()->subDay());
+
+    // Ambil log terbaru
+    $latestLog = $logQuery->latest('id')->first();
+
+    // Summary response
+    return response()->json([
+        'train_id' => $trainId,
+        'summary' => [
+            'temperature'  => $latestLog->temperature ?? 0,
+            'humidity'     => $latestLog->humidity ?? 0,
+            'noise'        => $latestLog->noise ?? 0,
+            'devices'      => $deviceQuery->count(),
+            'alerts'       => 0,
+            'connectivity' => rand(80, 99),
+        ]
+    ]);
+}
+
+
 
     public function downloadDaily(Request $request)
 {

@@ -24,6 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/mqtt/settings', [MqttController::class, 'settings']);
 Route::post('/mqtt/store', [MqttController::class, 'store']);
 Route::get('/monitoring/realtime', [MqttController::class, 'realtime']);
+
+Route::get('/monitoring/summary', [MqttController::class, 'summaryByTrain']);
+
+
 Route::post('/broker/log', [BrokerLogController::class, 'store']);
 Route::get('/alerts/latest', function () {
     $alerts = App\Models\General\Anomaly::with(['device.train', 'device.cars'])
